@@ -167,4 +167,16 @@ public class AnimationManager : MonoBehaviour
             }
         }
     }
+    Person GetCurrentPersonA(){
+        // Get current step
+        Steps.Step step = steps.GetCurrentStep();
+        // Get person from dictionary
+        return lPeopleDict[step.Person];
+    }
+    Person GetCurrentPersonB(){
+        // Get current step
+        Steps.Step step = steps.GetCurrentStep();
+        // Get person from dictionary
+        return rPeopleDict[step.Person];
+    }
 }

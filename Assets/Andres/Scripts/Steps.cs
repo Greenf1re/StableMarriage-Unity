@@ -110,6 +110,9 @@ public class Steps : ScriptableObject
         }
         return step;
     }
+    public Step GetCurrentStep(){
+        return StepsPerRound[CurrentRound][CurrentStep];
+    }
     public int GetRound(){
         return CurrentRound;
     }
