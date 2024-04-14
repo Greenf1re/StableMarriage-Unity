@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Animations;
 using EasyButtons;
 using TMPro;
+using System;
 
 public class AnimationManager : MonoBehaviour
 {
@@ -26,6 +27,8 @@ public class AnimationManager : MonoBehaviour
     private int currentStep = 0;
     private AnimatorController controller;
     public float speed = 5f;
+    public TextMeshProUGUI listA;
+    public TextMeshProUGUI listB;
     // Start is called before the first frame update
     void Awake()
     {
@@ -92,6 +95,8 @@ public class AnimationManager : MonoBehaviour
         // Get next step
         isPlaying = true;
         Steps.Step step = steps.GetNextStep();
+        //populate listA and listB:
+       
         if (step.Action == "Propose")
             Propose(step);
         else if (step.Action == "Unmatch")
@@ -112,6 +117,10 @@ public class AnimationManager : MonoBehaviour
         partner.SetColor(Color.green);
         // Move person to partner
         p.MoveTo(partner.personObject.GetComponent<TargetInfo>().GetTarget());
+        if(listA != null && listB != null){
+            WriteText(p, false);
+            WriteText(partner, true);
+        }
 
     }
     public void Unmatch(Steps.Step step){
@@ -167,16 +176,43 @@ public class AnimationManager : MonoBehaviour
             }
         }
     }
-    Person GetCurrentPersonA(){
+    public Person GetCurrentPersonA(){
         // Get current step
         Steps.Step step = steps.GetCurrentStep();
         // Get person from dictionary
-        return lPeopleDict[step.Person];
+        Debug.Log("CURRENTA: " +  step.Person);
+        Person pA = lPeopleDict[step.Person];
+        string name = new string(step.Person);
+        return new Person(name, pA.preferences);
     }
-    Person GetCurrentPersonB(){
+    public Person GetCurrentPersonB(){
         // Get current step
         Steps.Step step = steps.GetCurrentStep();
         // Get person from dictionary
-        return rPeopleDict[step.Person];
+        Person pB = rPeopleDict[step.Partner];
+        string name = new string(step.Partner);
+        return new Person(name, pB.preferences);
+    }
+    public Steps.Step GetCurrentStep()
+    {
+        return steps.GetCurrentStep();
+    }
+    void WriteText(Person person, bool isB)
+    {
+        //person.name person.preferences list . the list is unique to each person and it holds their information
+        // isB update text B
+        string txt = new string(person.pName);
+        txt += ": ";
+        txt += String.Join(",", person.preferences);
+        Debug.Log("WRT: " + person.pName + " " + person.preferences.Count);
+
+        if (isB)
+        {
+            listB.text = txt;
+        }
+        else
+        {
+            listA.text = txt;
+        }
     }
 }
