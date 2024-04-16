@@ -26,6 +26,16 @@ public class LoadScenes : MonoBehaviour
     {
         Application.Quit();
     }
+    public void ToggleFullScreen()
+    {
+        if( Screen.fullScreenMode == FullScreenMode.Windowed ) Screen.fullScreenMode = FullScreenMode.ExclusiveFullScreen;
+        else Screen.fullScreenMode = FullScreenMode.Windowed;
+    }   
+    public void SetFullScreen(bool isFullScreen)
+    {
+        if (isFullScreen) Screen.fullScreenMode = FullScreenMode.ExclusiveFullScreen;
+        else Screen.fullScreenMode = FullScreenMode.Windowed;
+    }
 
     IEnumerator LoadSceneAsync(object sceneIdentifier)
     {

@@ -1,11 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+
 
 public class TargetInfo : MonoBehaviour
 {
     public Vector3 Offset = new Vector3(0,0,0);
     private GameObject target;
+    [SerializeField]
+    public bool dropText = false;
     // Start is called before the first frame update
     
     void Start()
@@ -17,6 +21,17 @@ public class TargetInfo : MonoBehaviour
         target.name = "Target";
         // Set as child of current object
         target.transform.parent = transform;
+        // Find Canvas in children
+        TextMeshProUGUI tmpro = GetComponentInChildren<TextMeshProUGUI>();
+        if (tmpro != null){
+            tmpro.text = transform.name;
+            // Get tmpro parent and set as child of scene
+            if (dropText){
+                
+                tmpro.transform.parent.parent = null;
+                tmpro.transform.parent.position = new Vector3(this.transform.position.x, this.transform.position.y + 0.1f, this.transform.position.z);
+            }
+        }
     }
     public void SetOffset(Vector3 offset)
     {

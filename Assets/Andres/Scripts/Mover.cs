@@ -18,7 +18,7 @@ public class Mover : MonoBehaviour
     private bool playChain;
     private Mover matchedMover;
     private int curChainIndex = 0;
-    public int time = 100;
+    public int time = 50; //magic number
     public Animator animator;
     public void WalkAnimation(bool isWalking){
         // Set animation controller parameter to isWalking
@@ -69,6 +69,7 @@ public class Mover : MonoBehaviour
         isChainMoving = true;
         playChain = true;
         isMoving = true;
+        transform.LookAt(targetInfo[curChainIndex].GetTarget().transform);
         WalkAnimation(true);
         // if (setTpos) tpos = target.transform.position;
     }
@@ -93,7 +94,7 @@ public class Mover : MonoBehaviour
                 isChainMoving = true;
                 curChainIndex++;
                 if(curChainIndex < targetInfo.Length) transform.LookAt(targetInfo[curChainIndex].GetTarget().transform);
-                time = 100;
+                time = 50;
                 if(curChainIndex >= targetInfo.Length){
                     playChain = false;
                     animationManager.isPlaying = false;
@@ -119,7 +120,7 @@ public class Mover : MonoBehaviour
                 transform.SetPositionAndRotation(targetInfo[curChainIndex].GetTargetPosition(), new Quaternion(0, 0, 0, 0));
                 isChainMoving = false;
                 if(curChainIndex < targetInfo.Length){
-                    time = 100;
+                    time = 50;
                 }
                 else{
                     playChain = false;

@@ -93,6 +93,8 @@ public class AnimationManager : MonoBehaviour
     [Button]
     public void NextStep(){
         // Get next step
+        roundText.text = "Round " + (steps.CurrentRound + 1);
+
         isPlaying = true;
         Steps.Step step = steps.GetNextStep();
         //populate listA and listB:
@@ -103,6 +105,7 @@ public class AnimationManager : MonoBehaviour
             Unmatch(step);
         else if (step.Action == "Chain")
             Chain(step);
+        
     }
     public void Propose(Steps.Step step){
         Debug.Log("Propose: " + step.Person + " to " + step.Partner);
@@ -153,6 +156,10 @@ public class AnimationManager : MonoBehaviour
             // p.MoveTo(partner.personObject);
         }
         // Set person match to last partner
+        if(listA != null && listB != null){
+            WriteText(p, false);
+            WriteText(rPeopleDict[partners[partners.Length - 1]], true);
+        }
         p.matchedPerson = rPeopleDict[partners[partners.Length - 1]];
         p.StartChainMove(targets, p.matchedPerson.GetGameObject().GetComponent<Mover>());
         
@@ -167,7 +174,7 @@ public class AnimationManager : MonoBehaviour
     void Update()
     {
         if(playAutomatically && !isPlaying){
-            roundText.text = "Round " + steps.CurrentRound;
+            // roundText.text = "Round " + (steps.CurrentRound + 1);
             NextStep();
             if(steps.IsLastStep()){
                 playAutomatically = false;
@@ -176,27 +183,27 @@ public class AnimationManager : MonoBehaviour
             }
         }
     }
-    public Person GetCurrentPersonA(){
-        // Get current step
-        Steps.Step step = steps.GetCurrentStep();
-        // Get person from dictionary
-        Debug.Log("CURRENTA: " +  step.Person);
-        Person pA = lPeopleDict[step.Person];
-        string name = new string(step.Person);
-        return new Person(name, pA.preferences);
-    }
-    public Person GetCurrentPersonB(){
-        // Get current step
-        Steps.Step step = steps.GetCurrentStep();
-        // Get person from dictionary
-        Person pB = rPeopleDict[step.Partner];
-        string name = new string(step.Partner);
-        return new Person(name, pB.preferences);
-    }
-    public Steps.Step GetCurrentStep()
-    {
-        return steps.GetCurrentStep();
-    }
+    // public Person GetCurrentPersonA(){
+    //     // Get current step
+    //     Steps.Step step = steps.GetCurrentStep();
+    //     // Get person from dictionary
+    //     Debug.Log("CURRENTA: " +  step.Person);
+    //     Person pA = lPeopleDict[step.Person];
+    //     string name = new string(step.Person);
+    //     return new Person(name, pA.preferences);
+    // }
+    // public Person GetCurrentPersonB(){
+    //     // Get current step
+    //     Steps.Step step = steps.GetCurrentStep();
+    //     // Get person from dictionary
+    //     Person pB = rPeopleDict[step.Partner];
+    //     string name = new string(step.Partner);
+    //     return new Person(name, pB.preferences);
+    // }
+    // public Steps.Step GetCurrentStep()
+    // {
+    //     return steps.GetCurrentStep();
+    // }
     void WriteText(Person person, bool isB)
     {
         //person.name person.preferences list . the list is unique to each person and it holds their information

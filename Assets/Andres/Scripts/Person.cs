@@ -105,6 +105,7 @@ public class Person : MonoBehaviour
         // curChainIndex = 0;
         mover.targetInfo = targets;
         mover.SetMatchedMover(partner);
+        // personObject.transform.LookAt(partner.gameObject.transform); //VERIFY
         mover.SetChainMove();
         // MoveToChain(targets[curChainIndex++]);
 
